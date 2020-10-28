@@ -13,15 +13,15 @@ import gradleAssignment.CSVBuilderException;
 
 public class IPLAnalysisTest {
 	
-	public static String RUNS_FILE = "C:\\Users\\Ishani\\eclipse-workspace\\com.leagueanalysis\\MostRuns";
-	public static String WICKETS_FILE = "C:\\Users\\Ishani\\eclipse-workspace\\com.leagueanalysis\\MostWkts";
+	public static String RUNS_FILE = "C:\\Users\\Ishani\\eclipse-workspace\\com.leagueanalysis\\MostRuns.csv";
+	public static String WICKETS_FILE = "C:\\Users\\Ishani\\eclipse-workspace\\com.leagueanalysis\\MostWkts.csv";
 	IPLAnalysis iplAnalysis;
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws CSVBuilderException, IOException {
 		iplAnalysis = new IPLAnalysis();
 	}
-	
+
 	
 	@Test
 	public void givenFileData_IfMatchNumberOfRecords_ShouldReturnTrue() {
@@ -49,6 +49,7 @@ public class IPLAnalysisTest {
 		catch (CSVBuilderException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	/**
@@ -70,20 +71,38 @@ public class IPLAnalysisTest {
 		} 
 	}
 
-	@SuppressWarnings("deprecation")
 	@Test
 	public void givenRunsData_WhenSortedOnAverage_ShouldReturnTrue() throws IOException, CSVBuilderException {
 		try {
 			iplAnalysis.loadDataOfRuns(RUNS_FILE);
 			String sortedCSVData = iplAnalysis.getAverageWiseSortedData();
 			CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
-			assertEquals(83.2, iplCSV[0].average);
+			assertEquals(83.2, iplCSV[0].average, 0.0);
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
 		} 
 	}
 	
+	/**
+	 * UC 2
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenRunsData_WhenSortedOnSR_ShouldReturnTrue() throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(RUNS_FILE);
+			String sortedCSVData = iplAnalysis.getSRWiseSortedData();
+			CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
+			assertEquals(333.33, iplCSV[0].strikeRate, 0.0);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+		
+	}
 	
 }
 
