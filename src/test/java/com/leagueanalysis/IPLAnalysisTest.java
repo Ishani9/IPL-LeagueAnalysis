@@ -207,6 +207,41 @@ public class IPLAnalysisTest {
 		} 	
 	}
 	
+	/**
+	 * UC 7
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenWktsData_WhenSortedOnBowlingAvg_ShouldReturnTrue()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(WICKETS_FILE);
+			String sortedCSVData = iplAnalysis.sortedOnBowlingAverage();
+			CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
+			assertEquals("Anukul Roy", iplCSV[0].player);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	@Test
+	public void givenWktsData_WhenSortedOnBowlingAvg_ShouldReturnTopAverage()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(WICKETS_FILE);
+			String sortedCSVData = iplAnalysis.sortedOnBowlingAverage();
+			CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
+			assertEquals(11.0, iplCSV[0].average, 0.0);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	
 }
 
 	

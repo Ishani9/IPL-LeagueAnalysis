@@ -129,6 +129,18 @@ public class IPLAnalysis {
 	}
 	
 	/**
+	 * UC 7
+	 * 
+	 * @return
+	 */
+	public String sortedOnBowlingAverage() {
+		Comparator<CSVWickets> comparator = Comparator.comparing(entry -> entry.average);
+		this.sort(csvWktsList, comparator);
+		String sorted = new Gson().toJson(csvWktsList);
+		return sorted;
+	}
+	
+	/**
 	 * Comparator
 	 * 
 	 * @param <E>
