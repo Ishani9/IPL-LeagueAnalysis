@@ -61,6 +61,27 @@ public class IPLAnalysis {
 		return sorted;
 	}
 
+	public String getMax6And4WiseSortedData() {
+		Comparator<CSVRuns> comparator = Comparator.comparing(entry -> (entry.sixes + entry.fours));
+		this.sort(csvRunsList, comparator);
+		String sorted = new Gson().toJson(csvRunsList);
+		return sorted;
+	}
+	
+	public String getMax6WiseSortedData() {
+		Comparator<CSVRuns> comparator = Comparator.comparing(entry -> entry.sixes);
+		this.sort(csvRunsList, comparator);
+		String sorted = new Gson().toJson(csvRunsList);
+		return sorted;
+	}
+	
+	public String getMax4WiseSortedData() {
+		Comparator<CSVRuns> comparator = Comparator.comparing(entry -> entry.fours);
+		this.sort(csvRunsList, comparator);
+		String sorted = new Gson().toJson(csvRunsList);
+		return sorted;
+	}
+	
 	public <E> void sort(List<E> csvList, Comparator<E> comparator) {
 		for (int i = 0; i < csvList.size(); i++) {
 			for (int j = 0; j < csvList.size() - i - 1; j++) {

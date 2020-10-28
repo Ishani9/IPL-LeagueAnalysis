@@ -100,8 +100,52 @@ public class IPLAnalysisTest {
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
+		} 	
+	}
+	
+	/**
+	 * UC 3
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenRunsData_WhenSortedOn6And4_ShouldReturnTrue() throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(RUNS_FILE);
+			String sortedCSVData = iplAnalysis.getMax6And4WiseSortedData();
+			CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
+			assertEquals("Andre Russell", iplCSV[0].player);
 		} 
-		
+		catch (IOException e) {
+			e.printStackTrace();
+		} 	
+	}
+	
+	@Test
+	public void givenRunsData_WhenSortedOnSixes_ShouldReturnTrue() throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(RUNS_FILE);
+			String sortedCSVData = iplAnalysis.getMax6WiseSortedData();
+			CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
+			assertEquals("Andre Russell", iplCSV[0].player);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 	
+	}
+	
+	@Test
+	public void givenRunsData_WhenSortedOnFours_ShouldReturnTrue() throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(RUNS_FILE);
+			String sortedCSVData = iplAnalysis.getMax4WiseSortedData();
+			CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
+			assertEquals("Shikhar Dhawan", iplCSV[0].player);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 	
 	}
 	
 }
