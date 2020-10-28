@@ -241,6 +241,40 @@ public class IPLAnalysisTest {
 		} 
 	}
 	
+	/**
+	 * UC 8
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenWktsData_WhenSortedOnBowlingstrikeRate_ShouldReturnTrue()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(WICKETS_FILE);
+			String sortedCSVData = iplAnalysis.sortedOnBowlingStrikeRate();
+			CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
+			assertEquals("Alzarri Joseph", iplCSV[0].player);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	@Test
+	public void givenWktsData_WhenSortedOnBowlingstrikeRate_ShouldReturnTOPstrikeRate()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(WICKETS_FILE);
+			String sortedCSVData = iplAnalysis.sortedOnBowlingStrikeRate();
+			CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
+			assertEquals(8.66, iplCSV[0].strikeRate, 0.0);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	
 	
 }
 
