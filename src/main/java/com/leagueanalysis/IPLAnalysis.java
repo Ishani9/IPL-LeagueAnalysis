@@ -117,6 +117,18 @@ public class IPLAnalysis {
 	}
 	
 	/**
+	 * UC 6
+	 * 
+	 * @return
+	 */
+	public String getSortedOnMaxRunsAndAverage() {
+		Comparator<CSVRuns> iplCSVComparator = Comparator.comparing(entry -> entry.runs);
+		this.sort(csvRunsList, iplCSVComparator.thenComparing(entry -> entry.average));
+		String sorted = new Gson().toJson(csvRunsList);
+		return sorted;
+	}
+	
+	/**
 	 * Comparator
 	 * 
 	 * @param <E>

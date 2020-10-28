@@ -13,8 +13,8 @@ import gradleAssignment.CSVBuilderException;
 
 public class IPLAnalysisTest {
 	
-	public static String RUNS_FILE = "C:\\Users\\Ishani\\eclipse-workspace\\com.leagueanalysis\\MostRuns.csv";
-	public static String WICKETS_FILE = "C:\\Users\\Ishani\\eclipse-workspace\\com.leagueanalysis\\MostWkts.csv";
+	public static String RUNS_FILE = "C:\\Users\\Ishani\\eclipse-workspace\\com.leagueanalysis\\MostRuns";
+	public static String WICKETS_FILE = "C:\\Users\\Ishani\\eclipse-workspace\\com.leagueanalysis\\MostWkts";
 	IPLAnalysis iplAnalysis;
 	
 	@Before
@@ -187,6 +187,25 @@ public class IPLAnalysisTest {
 		} 	
 	}
 	
+	/**
+	 * UC 6
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenRunsData_WhenSortedOnMaxRunsAndAverage_ShouldReturnTrue()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(RUNS_FILE);
+			String sortedCSVData = iplAnalysis.getSortedOnMaxRunsAndAverage();
+			CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
+			assertEquals("David Warner", iplCSV[0].player);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 	
+	}
 	
 }
 
