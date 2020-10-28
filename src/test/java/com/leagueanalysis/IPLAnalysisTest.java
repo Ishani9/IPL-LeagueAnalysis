@@ -148,6 +148,25 @@ public class IPLAnalysisTest {
 		} 	
 	}
 	
+	/**
+	 * UC 4
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenRunsData_WhenSortedOn6And4AndSR_ShouldReturnTrue() throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(RUNS_FILE);
+			String sortedCSVData = iplAnalysis.getMax6And4AndSRWiseSortedData();
+			CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
+			assertEquals("Ishant Sharma", iplCSV[0].player);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 	
+	}
+	
 }
 
 	

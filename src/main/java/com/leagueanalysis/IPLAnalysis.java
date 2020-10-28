@@ -54,6 +54,11 @@ public class IPLAnalysis {
 		return sorted;
 	}
 	
+	/**
+	 * UC 2
+	 * 
+	 * @return
+	 */
 	public String getSRWiseSortedData() {
 		Comparator<CSVRuns> comparator = Comparator.comparing(entry -> entry.strikeRate);
 		this.sort(csvRunsList, comparator);
@@ -61,6 +66,11 @@ public class IPLAnalysis {
 		return sorted;
 	}
 
+	/**
+	 * UC 3
+	 * 
+	 * @return
+	 */
 	public String getMax6And4WiseSortedData() {
 		Comparator<CSVRuns> comparator = Comparator.comparing(entry -> (entry.sixes + entry.fours));
 		this.sort(csvRunsList, comparator);
@@ -81,6 +91,26 @@ public class IPLAnalysis {
 		String sorted = new Gson().toJson(csvRunsList);
 		return sorted;
 	}
+	
+	/**
+	 * UC 4
+	 * 
+	 * @return
+	 */
+	public String getMax6And4AndSRWiseSortedData() {
+		Comparator<CSVRuns> comparator = Comparator.comparing(entry -> (((entry.sixes + entry.fours)* 100)) / entry.bf);
+		this.sort(csvRunsList, comparator);
+		String sorted = new Gson().toJson(csvRunsList);
+		return sorted;
+	}
+	
+	/**
+	 * Comparator
+	 * 
+	 * @param <E>
+	 * @param csvList
+	 * @param comparator
+	 */
 	
 	public <E> void sort(List<E> csvList, Comparator<E> comparator) {
 		for (int i = 0; i < csvList.size(); i++) {
