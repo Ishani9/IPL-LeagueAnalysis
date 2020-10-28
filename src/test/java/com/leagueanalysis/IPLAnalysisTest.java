@@ -167,6 +167,27 @@ public class IPLAnalysisTest {
 		} 	
 	}
 	
+	/**
+	 * UC 5
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenRunsData_WhenSortedOnAverageAndStrikeRate_ShouldReturnTrue()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(RUNS_FILE);
+			String sortedCSVData = iplAnalysis.getSortedOnAverageAndStrikeRate();
+			CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
+			assertEquals("MS Dhoni", iplCSV[0].player);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 	
+	}
+	
+	
 }
 
 	

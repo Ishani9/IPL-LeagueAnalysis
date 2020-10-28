@@ -105,6 +105,18 @@ public class IPLAnalysis {
 	}
 	
 	/**
+	 * UC 5
+	 * 
+	 * @return
+	 */
+	public String getSortedOnAverageAndStrikeRate() {
+		Comparator<CSVRuns> iplCSVComparator = Comparator.comparing(entry -> entry.average);
+		this.sort(csvRunsList, iplCSVComparator.thenComparing(entry -> entry.strikeRate));
+		String sorted = new Gson().toJson(csvRunsList);
+		return sorted;
+	}
+	
+	/**
 	 * Comparator
 	 * 
 	 * @param <E>
