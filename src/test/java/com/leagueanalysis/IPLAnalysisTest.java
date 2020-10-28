@@ -275,6 +275,40 @@ public class IPLAnalysisTest {
 		} 
 	}
 	
+	/**
+	 * UC 9
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenWktsData_WhenSortedOnBowlingEconomy_ShouldReturnTrue()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(WICKETS_FILE);
+			String sortedCSVData = iplAnalysis.sortedOnBowlingEconomy();
+			CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
+			assertEquals("Shivam Dube", iplCSV[0].player);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	@Test
+	public void givenWktsData_WhenSortedOnBowlingEconomy_ShouldReturnTopEconomy()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(WICKETS_FILE);
+			String sortedCSVData = iplAnalysis.sortedOnBowlingEconomy();
+			CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
+			assertEquals(4.8, iplCSV[0].economy, 0.0);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	
 	
 }
 

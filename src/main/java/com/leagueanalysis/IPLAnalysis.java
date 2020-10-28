@@ -153,6 +153,18 @@ public class IPLAnalysis {
 	}
 	
 	/**
+	 * UC 9
+	 * 
+	 * @return
+	 */
+	public String sortedOnBowlingEconomy() {
+		Comparator<CSVWickets> comparator = Comparator.comparing(entry -> entry.economy);
+		this.sortForMin(csvWktsList, comparator);
+		String sorted = new Gson().toJson(csvWktsList);
+		return sorted;
+	}
+	
+	/**
 	 * Comparator
 	 * 
 	 * @param <E>
@@ -166,6 +178,19 @@ public class IPLAnalysis {
 				E player1 = csvList.get(j);
 				E player2 = csvList.get(j + 1);
 				if (comparator.compare(player1, player2) < 0) {
+					csvList.set(j, player2);
+					csvList.set(j + 1, player1);
+				}
+			}
+		}
+	}
+	
+	public <E> void sortForMin(List<E> csvList, Comparator<E> comparator) {
+		for (int i = 0; i < csvList.size(); i++) {
+			for (int j = 0; j < csvList.size() - i - 1; j++) {
+				E player1 = csvList.get(j);
+				E player2 = csvList.get(j + 1);
+				if (comparator.compare(player1, player2) > 0) {
 					csvList.set(j, player2);
 					csvList.set(j + 1, player1);
 				}
