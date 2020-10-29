@@ -431,7 +431,26 @@ public class IPLAnalysisTest {
 		try {
 			iplAnalysis.loadDataOfRuns(RUNS_FILE);
 			List<CSVRuns> sortedCSVData = iplAnalysis.getSortedOnMaxHundredsAndBattingAverage();
-			assertEquals("David Warner", sortedCSVData.get(0));
+			assertEquals("David Warner", sortedCSVData.get(0).player);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	/**
+	 * UC 16
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenWktsData_WhenSortedOnMaxBattingAverageWithout100And50s_ShouldReturnTrue()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(RUNS_FILE);
+			List<CSVRuns> sortedCSVData = iplAnalysis.getSortedOnBattingAverageWithout100And50s();
+			assertEquals("Marcus Stoinis", sortedCSVData.get(0).player);
 		} 
 		catch (IOException e) {
 			e.printStackTrace();

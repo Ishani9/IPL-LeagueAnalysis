@@ -269,10 +269,22 @@ public class IPLAnalysis {
 	 */
 	public List<CSVRuns> getSortedOnMaxHundredsAndBattingAverage() {
 		csvRunsList.removeIf(entry -> entry.hundreds == 0);
-		Comparator<CSVRuns> iplCSVComparator = Comparator.comparing(entry -> entry.hundreds);
-		List<CSVRuns> tempList = this.sort(csvRunsList, iplCSVComparator);
+		Comparator<CSVRuns> comparator = Comparator.comparing(entry -> entry.hundreds);
+		List<CSVRuns> tempList = this.sort(csvRunsList, comparator);
 		this.sort(tempList, Comparator.comparing(entry -> entry.average));
 		return tempList;
+	}
+	
+	/**
+	 * UC 16
+	 * 
+	 * @return
+	 */
+	public List<CSVRuns> getSortedOnBattingAverageWithout100And50s() {
+		csvRunsList.removeIf(entry -> (entry.hundreds + entry.fifties != 0));
+		Comparator<CSVRuns> comparator = Comparator.comparing(entry -> entry.average);
+		this.sort(csvRunsList, comparator);
+		return csvRunsList;
 	}
 	
 	/**
