@@ -3,13 +3,10 @@ package com.leagueanalysis;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.List;
-
 import com.google.gson.Gson;
-
 import gradleAssignment.CSVBuilderException;
 import gradleAssignment.CSVBuilderFactory;
 import gradleAssignment.CSVBuilderInterface;
@@ -21,11 +18,13 @@ public class IPLAnalysis {
 
 	public int loadDataOfRuns(String CSVFile) throws IOException, CSVBuilderException {
 		Reader reader = Files.newBufferedReader(Paths.get(CSVFile));
+		System.out.println("Loding runs data..");
 		@SuppressWarnings("unchecked")
 		CSVBuilderInterface<CSVRuns> csvBuilder = CSVBuilderFactory.createCSVBuilder();
 		csvRunsList = csvBuilder.getCSVFileList(reader, CSVRuns.class);
-		return csvRunsList.size();		
+		return csvRunsList.size();
 	}
+		
 
 	public int loadDataOfWickets(String CSVFile) throws IOException, CSVBuilderException {
 		Reader reader = Files.newBufferedReader(Paths.get(CSVFile));
@@ -47,7 +46,7 @@ public class IPLAnalysis {
 		return max;
 	}
 	
-	public String getAverageWiseSortedData() {
+	public String getAverageWiseSortedData() throws CSVBuilderException, IOException {
 		Comparator<CSVRuns> comparator = Comparator.comparing(entry -> entry.average);
 		this.sort(csvRunsList, comparator);
 		String sorted = new Gson().toJson(csvRunsList);
@@ -162,6 +161,33 @@ public class IPLAnalysis {
 		this.sortForMin(csvWktsList, comparator);
 		String sorted = new Gson().toJson(csvWktsList);
 		return sorted;
+	}
+	
+	/**
+	 * UC 10
+	 * 
+	 * @return
+	 */
+	public String sortForPlayerWithBestStrikeRateWith4w5w() {
+		Comparator<CSVWickets> comparator = Comparator.comparing(entry -> entry.strikeRate);
+		this.sort(csvWktsList, comparator.thenComparing(entry -> (entry.fourWickets) * 4 + (entry.fiveWickets) * 5));
+		String sorted = new Gson().toJson(csvWktsList);
+		return sorted;
+	}
+	
+	public String getPlayerWithBestStrikeRateWith4w5w() {
+		CSVWickets bestplayer = csvWktsList.stream()
+				.min((x, y) -> Double.compare(calculateStrikeRateWith4w5w(x), calculateStrikeRateWith4w5w(y))).get();
+		return bestplayer.player;
+	}
+
+	public double calculateStrikeRateWith4w5w(CSVWickets player) {
+		double numOfWicketsWith4w5w = player.fourWickets * 4 + player.fiveWickets * 5;
+		if (numOfWicketsWith4w5w == 0)
+			return 0;
+		int numOfBalls = (int) player.overs;
+		numOfBalls = numOfBalls * 6 + (int) ((player.overs - numOfBalls) * 10);
+		return numOfBalls / numOfWicketsWith4w5w;
 	}
 	
 	/**

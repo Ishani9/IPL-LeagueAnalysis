@@ -1,14 +1,10 @@
 package com.leagueanalysis;
 
 import static org.junit.Assert.assertEquals;
-
 import java.io.IOException;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import com.google.gson.Gson;
-
 import gradleAssignment.CSVBuilderException;
 
 public class IPLAnalysisTest {
@@ -22,7 +18,6 @@ public class IPLAnalysisTest {
 		iplAnalysis = new IPLAnalysis();
 	}
 
-	
 	@Test
 	public void givenFileData_IfMatchNumberOfRecords_ShouldReturnTrue() {
 		try {
@@ -77,7 +72,7 @@ public class IPLAnalysisTest {
 			iplAnalysis.loadDataOfRuns(RUNS_FILE);
 			String sortedCSVData = iplAnalysis.getAverageWiseSortedData();
 			CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
-			assertEquals(83.2, iplCSV[0].average, 0.0);
+			assertEquals("MS Dhoni", iplCSV[0].player);
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
@@ -97,6 +92,19 @@ public class IPLAnalysisTest {
 			String sortedCSVData = iplAnalysis.getSRWiseSortedData();
 			CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
 			assertEquals(333.33, iplCSV[0].strikeRate, 0.0);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 	
+	}
+	
+	@Test
+	public void givenRunsData_WhenSortedOnSR_ShouldReturnName() throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(RUNS_FILE);
+			String sortedCSVData = iplAnalysis.getSRWiseSortedData();
+			CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
+			assertEquals("Ishant Sharma", iplCSV[0].player);
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
@@ -160,7 +168,7 @@ public class IPLAnalysisTest {
 			iplAnalysis.loadDataOfRuns(RUNS_FILE);
 			String sortedCSVData = iplAnalysis.getMax6And4AndSRWiseSortedData();
 			CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
-			assertEquals("Ishant Sharma", iplCSV[0].player);
+			assertEquals("Andre Russell", iplCSV[0].player);
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
@@ -180,7 +188,7 @@ public class IPLAnalysisTest {
 			iplAnalysis.loadDataOfRuns(RUNS_FILE);
 			String sortedCSVData = iplAnalysis.getSortedOnAverageAndStrikeRate();
 			CSVRuns[] iplCSV = new Gson().fromJson(sortedCSVData, CSVRuns[].class);
-			assertEquals("MS Dhoni", iplCSV[0].player);
+			assertEquals("David Warner", iplCSV[0].player);
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
@@ -303,6 +311,26 @@ public class IPLAnalysisTest {
 			String sortedCSVData = iplAnalysis.sortedOnBowlingEconomy();
 			CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
 			assertEquals(4.8, iplCSV[0].economy, 0.0);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	/**
+	 * UC 10
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenWktsData_ShouldReturn_topStrikeRateWith4w5w()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(WICKETS_FILE);
+			String sortedCSVData = iplAnalysis.sortForPlayerWithBestStrikeRateWith4w5w();
+			CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
+			assertEquals("Kagiso Rabada", iplCSV[0].player);
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
