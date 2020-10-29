@@ -3,6 +3,8 @@ package com.leagueanalysis;
 import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.List;
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import com.google.gson.Gson;
@@ -411,6 +413,25 @@ public class IPLAnalysisTest {
 			iplAnalysis.loadDataOfRuns(RUNS_FILE);
 			List<String> sortedCSVData = iplAnalysis.getSortedOnMaxRunsAndWkts();
 			assertEquals("Andre Russell", sortedCSVData.get(0));
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	/**
+	 * UC 15
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenWktsData_WhenSortedOnMaxHundredsAndBattingAverage_ShouldReturnTrue()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(RUNS_FILE);
+			List<CSVRuns> sortedCSVData = iplAnalysis.getSortedOnMaxHundredsAndBattingAverage();
+			assertEquals("David Warner", sortedCSVData.get(0));
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
