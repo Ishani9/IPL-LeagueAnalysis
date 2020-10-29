@@ -191,6 +191,18 @@ public class IPLAnalysis {
 	}
 	
 	/**
+	 * UC 11
+	 * 
+	 * @return
+	 */
+	public String sortForBowlersWithBestAverageAndStrikeRate() {
+		Comparator<CSVWickets> comparator = Comparator.comparing(entry -> entry.average);
+		this.sort(csvWktsList, comparator.thenComparing(entry -> entry.strikeRate));
+		String sorted = new Gson().toJson(csvWktsList);
+		return sorted;
+	}
+	
+	/**
 	 * Comparator
 	 * 
 	 * @param <E>

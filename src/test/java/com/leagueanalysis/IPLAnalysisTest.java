@@ -337,6 +337,25 @@ public class IPLAnalysisTest {
 		} 
 	}
 	
+	/**
+	 * UC 11
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenWktsData_ShouldReturn_topStrikeRateWithBestAverage()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(WICKETS_FILE);
+			String sortedCSVData = iplAnalysis.sortForBowlersWithBestAverageAndStrikeRate();
+			CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
+			assertEquals("Kagiso Rabada", iplCSV[0].player);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
 	
 }
 
