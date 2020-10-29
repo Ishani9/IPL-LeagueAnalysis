@@ -227,7 +227,6 @@ public class IPLAnalysis {
 	 * @throws CSVBuilderException
 	 * @throws IOException
 	 */
-	
 	@SuppressWarnings("unchecked")
 	public List<String> getSortedOnBestBattingAndBowlingAvg() throws JsonSyntaxException, CSVBuilderException, IOException {
 		List<CSVRuns> battingList = (ArrayList<CSVRuns>) new Gson().fromJson(this.getAverageWiseSortedData(),
@@ -239,7 +238,19 @@ public class IPLAnalysis {
 		return this.forAllRounder(battingList, bowlingList);
 	}
 	
-	private List<String> forAllRounder(List<CSVRuns> runsList, List<CSVWickets> wicketsList) {
+	/**
+	 * UC 14
+	 * 
+	 * @return
+	 */
+	public List<String> getSortedOnMaxRunsAndWkts() {
+		List<CSVRuns> runsList = this.sort(csvRunsList, Comparator.comparing(entry -> entry.runs)).stream()
+				.limit(50).collect(Collectors.toList());
+		List<CSVWickets> wicketsList = this.sort(csvWktsList, Comparator.comparing(entry -> entry.wickets));
+		return this.forAllRounder(runsList, wicketsList);
+	}
+	
+	public List<String> forAllRounder(List<CSVRuns> runsList, List<CSVWickets> wicketsList) {
 		List<String> playerList = new ArrayList<>();
 		for (CSVRuns bat : runsList) {
 			for (CSVWickets bowl : wicketsList) {

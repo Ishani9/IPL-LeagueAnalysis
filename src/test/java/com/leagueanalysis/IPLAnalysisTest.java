@@ -376,6 +376,7 @@ public class IPLAnalysisTest {
 			e.printStackTrace();
 		} 
 	}
+	
 	/**
 	 * UC 13
 	 * 
@@ -396,6 +397,25 @@ public class IPLAnalysisTest {
 		} 
 	}
 
+	/**
+	 * UC 14
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenWktsData_WhenSortedOnMaxRunsAndWkts_ShouldReturnTrue()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfWickets(WICKETS_FILE);
+			iplAnalysis.loadDataOfRuns(RUNS_FILE);
+			List<String> sortedCSVData = iplAnalysis.getSortedOnMaxRunsAndWkts();
+			assertEquals("Andre Russell", sortedCSVData.get(0));
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
 }
 
 	
