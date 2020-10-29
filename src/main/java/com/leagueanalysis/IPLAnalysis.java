@@ -4,9 +4,13 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import gradleAssignment.CSVBuilderException;
 import gradleAssignment.CSVBuilderFactory;
 import gradleAssignment.CSVBuilderInterface;
@@ -207,12 +211,45 @@ public class IPLAnalysis {
 	 * @return
 	 */
 	public String sortForBowlersWithMaximumWicketsAndBestAverage() {
-		Comparator<CSVWickets> comparator = Comparator.comparing(entry -> entry.wickets);
-		this.sort(csvWktsList, comparator.thenComparing(entry -> entry.average));
-		String sorted = new Gson().toJson(csvWktsList);
+		Comparator<CSVWickets> iplCSVComparator = Comparator.comparing(entry -> entry.wickets);
+		List<CSVWickets> tempList = this.sort(csvWktsList, iplCSVComparator).stream().limit(20)
+				.collect(Collectors.toList());
+		this.sortForMin(tempList, Comparator.comparing(entry -> entry.average));
+		String sorted = new Gson().toJson(tempList);
 		return sorted;
 	}
 	
+	/**
+	 * UC 13
+	 * 
+	 * @return
+	 * @throws JsonSyntaxException
+	 * @throws CSVBuilderException
+	 * @throws IOException
+	 */
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getSortedOnBestBattingAndBowlingAvg() throws JsonSyntaxException, CSVBuilderException, IOException {
+		List<CSVRuns> battingList = (ArrayList<CSVRuns>) new Gson().fromJson(this.getAverageWiseSortedData(),
+				new TypeToken<ArrayList<CSVRuns>>() {
+				}.getType());
+		List<CSVWickets> bowlingList = (ArrayList<CSVWickets>) new Gson().fromJson(this.sortedOnBowlingAverage(),
+				new TypeToken<ArrayList<CSVWickets>>() {
+				}.getType());
+		return this.forAllRounder(battingList, bowlingList);
+	}
+	
+	private List<String> forAllRounder(List<CSVRuns> runsList, List<CSVWickets> wicketsList) {
+		List<String> playerList = new ArrayList<>();
+		for (CSVRuns bat : runsList) {
+			for (CSVWickets bowl : wicketsList) {
+				if (bat.player.equals(bowl.player)) {
+					playerList.add(bat.player);
+				}
+			}
+		}
+		return playerList;
+	}
 	
 	/**
 	 * Comparator
@@ -222,7 +259,7 @@ public class IPLAnalysis {
 	 * @param comparator
 	 */
 	
-	public <E> void sort(List<E> csvList, Comparator<E> comparator) {
+	public <E> List<E> sort(List<E> csvList, Comparator<E> comparator) {
 		for (int i = 0; i < csvList.size(); i++) {
 			for (int j = 0; j < csvList.size() - i - 1; j++) {
 				E player1 = csvList.get(j);
@@ -233,9 +270,10 @@ public class IPLAnalysis {
 				}
 			}
 		}
+		return csvList;
 	}
 	
-	public <E> void sortForMin(List<E> csvList, Comparator<E> comparator) {
+	public <E> List<E> sortForMin(List<E> csvList, Comparator<E> comparator) {
 		for (int i = 0; i < csvList.size(); i++) {
 			for (int j = 0; j < csvList.size() - i - 1; j++) {
 				E player1 = csvList.get(j);
@@ -246,5 +284,6 @@ public class IPLAnalysis {
 				}
 			}
 		}
+		return csvList;
 	}
 }

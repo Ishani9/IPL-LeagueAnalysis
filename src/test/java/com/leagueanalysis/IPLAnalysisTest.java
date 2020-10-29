@@ -2,6 +2,7 @@ package com.leagueanalysis;
 
 import static org.junit.Assert.assertEquals;
 import java.io.IOException;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import com.google.gson.Gson;
@@ -375,6 +376,26 @@ public class IPLAnalysisTest {
 			e.printStackTrace();
 		} 
 	}
+	/**
+	 * UC 13
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenWktsData_WhenSortedOnBattingAndBowlingAvg_ShouldReturnTrue()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfWickets(WICKETS_FILE);
+			iplAnalysis.loadDataOfRuns(RUNS_FILE);
+			List<String> sortedCSVData = iplAnalysis.getSortedOnBestBattingAndBowlingAvg();
+			assertEquals("Andre Russell", sortedCSVData.get(0));
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
+
 }
 
 	
