@@ -18,7 +18,6 @@ public class IPLAnalysis {
 
 	public int loadDataOfRuns(String CSVFile) throws IOException, CSVBuilderException {
 		Reader reader = Files.newBufferedReader(Paths.get(CSVFile));
-		System.out.println("Loding runs data..");
 		@SuppressWarnings("unchecked")
 		CSVBuilderInterface<CSVRuns> csvBuilder = CSVBuilderFactory.createCSVBuilder();
 		csvRunsList = csvBuilder.getCSVFileList(reader, CSVRuns.class);
@@ -201,6 +200,19 @@ public class IPLAnalysis {
 		String sorted = new Gson().toJson(csvWktsList);
 		return sorted;
 	}
+	
+	/**
+	 * UC 12
+	 * 
+	 * @return
+	 */
+	public String sortForBowlersWithMaximumWicketsAndBestAverage() {
+		Comparator<CSVWickets> comparator = Comparator.comparing(entry -> entry.wickets);
+		this.sort(csvWktsList, comparator.thenComparing(entry -> entry.average));
+		String sorted = new Gson().toJson(csvWktsList);
+		return sorted;
+	}
+	
 	
 	/**
 	 * Comparator

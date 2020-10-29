@@ -9,8 +9,8 @@ import gradleAssignment.CSVBuilderException;
 
 public class IPLAnalysisTest {
 	
-	public static String RUNS_FILE = "C:\\Users\\Ishani\\eclipse-workspace\\com.leagueanalysis\\MostRuns";
-	public static String WICKETS_FILE = "C:\\Users\\Ishani\\eclipse-workspace\\com.leagueanalysis\\MostWkts";
+	public static String RUNS_FILE = "C:\\Users\\Ishani\\eclipse-workspace\\com\\leagueanalysis\\MostRuns.csv";
+	public static String WICKETS_FILE = "C:\\Users\\Ishani\\eclipse-workspace\\com\\leagueanalysis\\MostWkts.csv";
 	IPLAnalysis iplAnalysis;
 	
 	@Before
@@ -43,8 +43,7 @@ public class IPLAnalysisTest {
 		} 
 		catch (CSVBuilderException e) {
 			e.printStackTrace();
-		}
-		
+		}	
 	}
 	
 	/**
@@ -357,6 +356,25 @@ public class IPLAnalysisTest {
 		} 
 	}
 	
+	/**
+	 * UC 12
+	 * 
+	 * @throws IOException
+	 * @throws CSVBuilderException
+	 */
+	@Test
+	public void givenWktsData_ShouldReturn_MaximumWicketsWithBestAverage()
+			throws IOException, CSVBuilderException {
+		try {
+			iplAnalysis.loadDataOfRuns(WICKETS_FILE);
+			String sortedCSVData = iplAnalysis.sortForBowlersWithMaximumWicketsAndBestAverage();
+			CSVWickets[] iplCSV = new Gson().fromJson(sortedCSVData, CSVWickets[].class);
+			assertEquals("Kagiso Rabada", iplCSV[0].player);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		} 
+	}
 }
 
 	
